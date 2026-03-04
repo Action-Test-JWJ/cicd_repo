@@ -1,0 +1,153 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+	<xacro:include filename="$(find edie_description)/urdf/inertial_macros.xacro"/>
+    <xacro:property name="wheel_radius" value="0.05"/>
+    <xacro:property name="wheel_length" value="0.012"/>
+    <xacro:property name="wheel_separation" value="0.136"/>
+    
+	<material name="white">
+	    <color rgba="1 1 1 1"/>
+	</material>
+
+	<material name="black">
+	    <color rgba="0 0 0 1"/>
+	</material>
+
+    <link name="base_footprint">
+    </link>
+
+    <joint name="base_joint" type="fixed">
+        <parent link="base_footprint"/>
+        <child link="base_link"/>
+        <origin xyz="0 0 ${wheel_radius}" rpy="0 0 0"/>
+    </joint>
+
+	<link name="base_link">
+	</link>
+
+	<joint name="chassis_joint" type="fixed">
+	    <parent link="base_link"/>
+	    <child link="chassis"/>
+	    <origin xyz="0 0 0" rpy="0 0 0"/>
+	</joint>
+
+	<link name="chassis">
+		<visual>
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<geometry>
+				<mesh filename="file://$(find edie_description)/meshes/collision/edie8_3_chassis.stl"/>
+			</geometry>
+			<material name="white"/>
+		</visual>
+		<collision>
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<geometry>
+				<mesh filename="file://$(find edie_description)/meshes/collision/edie8_3_chassis.stl"/>
+			</geometry>
+		</collision>
+		<xacro:inertial_sphere mass="0.15" radius="0.13">
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+		</xacro:inertial_sphere>
+	</link>
+
+	<joint name="left_wheel_joint" type="continuous">
+		<parent link="base_link"/>
+		<child link="left_wheel"/>
+		<origin xyz="0.016 ${wheel_separation/2} -0.012" rpy="0 0 0"/>
+		<axis xyz="0 1 0"/>
+	</joint>
+
+	<!-- LEFT WHEEL -->
+	<link name="left_wheel">
+		<visual>
+			<geometry>
+				<cylinder length="${wheel_length}" radius="${wheel_radius}" />
+			</geometry>
+			<origin xyz="0 0 0" rpy="${pi / 2.0} 0 0"/>
+			<material name="black"/>
+		</visual>
+		<collision>
+			<geometry>
+				<cylinder length="${wheel_length}" radius="${wheel_radius}" />
+			</geometry>
+			<origin xyz="0 0 0" rpy="${pi / 2.0} 0 0"/>
+			<material name="black"/>
+		</collision>
+		<xacro:inertial_cylinder mass="0.15" length="${wheel_length}" radius="${wheel_radius}">
+			<origin xyz="0 0 0" rpy="${pi / 2.0} 0 0"/>
+		</xacro:inertial_cylinder>
+	</link>
+
+	<joint name="right_wheel_joint" type="continuous">
+		<parent link="base_link"/>
+		<child link="right_wheel"/>
+		<origin xyz="0.016 -${wheel_separation/2} -0.012" rpy="0 0 0"/>
+		<axis xyz="0 1 0"/>
+	</joint>
+
+	<!-- RIGHT WHEEL -->
+	<link name="right_wheel">
+		<visual>
+			<geometry>
+				<cylinder length="${wheel_length}" radius="${wheel_radius}" />
+			</geometry>
+			<origin xyz="0 0 0" rpy="${pi / 2.0} 0 0"/>
+			<material name="black"/>
+		</visual>
+		<collision>
+			<geometry>
+				<cylinder length="${wheel_length}" radius="${wheel_radius}" />
+			</geometry>
+			<origin xyz="0 0 0" rpy="${pi / 2.0} 0 0"/>
+			<material name="black"/>
+		</collision>
+		<xacro:inertial_cylinder mass="0.15" length="${wheel_length}" radius="${wheel_radius}">
+			<origin xyz="0 0 0" rpy="${pi / 2.0} 0 0"/>
+		</xacro:inertial_cylinder>
+	</link>
+
+	<!-- CASTER WHEEL -->
+	<joint name="caster_wheel_joint" type="fixed">
+		<parent link="base_link"/>
+		<child link="caster_wheel"/>
+		<origin xyz="-0.08 0 -0.047" rpy="0 0 0"/>
+	</joint>
+
+	<link name="caster_wheel">
+		<visual>
+			<geometry>
+				<sphere radius="0.015" />
+			</geometry>
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<material name="black"/>
+		</visual>
+		<collision>
+			<geometry>
+				<sphere radius="0.015" />
+			</geometry>
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<material name="black"/>
+		</collision>
+		<xacro:inertial_sphere mass="0.1" radius="0.015">
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+		</xacro:inertial_sphere>
+	</link>
+
+    <gazebo reference="left_wheel">
+      <material>Gazebo/Black</material>
+      <mu1 value="10.0"/>
+      <mu2 value="10.0"/>
+    </gazebo>
+
+    <gazebo reference="right_wheel">
+      <material>Gazebo/Black</material>
+      <mu1 value="10.0"/>
+      <mu2 value="10.0"/>
+    </gazebo>
+
+	<gazebo reference="caster_wheel">
+	<material>Gazebo/Black</material>
+	<mu1 value="0.01"/>
+	<mu2 value="0.01"/>
+	</gazebo>
+</robot>

@@ -1,0 +1,14 @@
+[Unit]
+Description=EDIE8 Speaker Service
+After=display-manager.service
+
+[Service]
+ExecStart=/home/vraptor/ros2_ws/src/edie8/edie_system_setting/shellscript/edie8_speaker_gpio.sh
+Restart=on-failure
+RestartSec=10s
+Environment="DISPLAY=:0
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,2 @@
+[console_scripts]
+emotion_pub = edie_emotion_detection.edie_emotion_detection_node:main

@@ -1,0 +1,2 @@
+bool speed_accepted
+int32 hand_id

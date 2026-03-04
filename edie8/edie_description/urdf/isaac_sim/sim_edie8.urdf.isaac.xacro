@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!-- Basic differential drive mobile base -->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="edie8">
+  <xacro:arg name="prefix" default="" />
+  <xacro:arg name="use_sim" default="false" />
+  
+  <xacro:include filename="$(find edie_description)/urdf/isaac_sim/sim_edie8_core.isaac.xacro" />
+  <xacro:include filename="$(find edie_description)/urdf/isaac_sim/sim_edie8_ros2_control.isaac.xacro" />
+  <xacro:include filename="$(find edie_description)/urdf/isaac_sim/sim_edie8_sensor.isaac.xacro" />
+
+  <xacro:edie8_ros2_control name="edie8" prefix="$(arg prefix)" use_sim="$(arg use_sim)" />
+  <xacro:edie8_isaac_sensor prefix="$(arg prefix)"/>
+    
+</robot>

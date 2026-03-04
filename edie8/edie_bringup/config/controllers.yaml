@@ -1,0 +1,114 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 50  # Hz (T: 50ms)
+    use_sim_time: false
+
+    edie_diff_drive_controller:
+      type: edie_diff_drive_controller/DiffDriveController
+
+    edie_l_leg_position_controller:
+      # type: position_controllers/JointGroupPositionController
+      type: edie_passthrough_controller/PassthroughController
+
+    edie_r_leg_position_controller:
+      type: edie_passthrough_controller/PassthroughController
+
+    edie_l_ear_position_controller:
+      type: edie_passthrough_controller/PassthroughController
+
+    edie_r_ear_position_controller:
+      type: edie_passthrough_controller/PassthroughController
+      
+    edie_leg_trajectory_controller:
+      type: edie_joint_trajectory_controller/JointTrajectoryController
+
+    edie_ear_trajectory_controller:
+      type: edie_joint_trajectory_controller/JointTrajectoryController
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+edie_diff_drive_controller:
+  ros__parameters:
+    left_wheel_names: ['left_wheel_joint']
+    right_wheel_names: ['right_wheel_joint']
+
+    publish_rate: 50.0
+    odom_frame_id: odom
+    base_frame_id: base_footprint
+
+    wheel_separation: 0.1479
+    wheel_radius: 0.043
+
+    use_stamped_vel: false
+    enable_odom_tf: true
+    position_feedback: true
+    open_loop: false
+
+    publish_limited_velocity: true
+
+    linear.x:
+      has_velocity_limits: true
+      has_acceleration_limits: true
+      has_jerk_limits: false  # (옵션)
+      max_velocity: 1.0  # 최대 속도 (예: m/s)
+      max_acceleration: 2.0
+      min_acceleration: -2.0
+      max_jerk: 4.0
+      min_jerk: -4.0
+
+    angular.z:
+      has_velocity_limits: true
+      has_acceleration_limits: true
+      has_jerk_limits: false  # (옵션)
+      max_velocity: 8.0  # 최대 각속도 (예: rad/s)
+      max_acceleration: 8.0  # 최대 각가속도 (예: rad/s^2)
+      min_acceleration: -8.0  # 최대 각감속도 (예: rad/s^2)
+
+edie_l_leg_position_controller:
+  ros__parameters:
+    interfaces: ["left_leg_joint/position"]
+
+edie_r_leg_position_controller:
+  ros__parameters:
+    interfaces: ["right_leg_joint/position"]
+
+edie_l_ear_position_controller:
+  ros__parameters:
+    interfaces: ["left_ear_joint/position"]
+
+edie_r_ear_position_controller:
+  ros__parameters:
+    interfaces: ["right_ear_joint/position"]
+
+edie_leg_trajectory_controller:
+  ros__parameters:
+    joints:
+      - edie_l_leg_position_controller/left_leg_joint
+      - edie_r_leg_position_controller/right_leg_joint
+
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+
+edie_ear_trajectory_controller:
+  ros__parameters:
+    joints:
+      - edie_l_ear_position_controller/left_ear_joint
+      - edie_r_ear_position_controller/right_ear_joint
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+
+joint_state_broadcaster:
+  ros__parameters:
+    publish_rate: 50.0  # Hz
+    joints:
+      - left_wheel_joint
+      - right_wheel_joint
+      - left_leg_joint
+      - right_leg_joint
+      - left_ear_joint 
+      - right_ear_joint

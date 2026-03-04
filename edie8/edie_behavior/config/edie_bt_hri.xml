@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root BTCPP_format="4"
+      main_tree_to_execute="Main">
+      
+  <BehaviorTree ID="Main">
+    <ReactiveFallback name="root_fallback">
+      
+      <!-- MANUAL MODE - 세분화된 동작 -->
+      <!-- 1번(가장 왼쪽, 최우선) -->
+      <!-- 우선순위: remote > follow > home -->
+      <ReactiveFallback name="manual_modes">
+      
+        <!-- Remote Control Mode -->
+        <Sequence>
+          <IsRobotMode mode="remote"/>
+          <IsMotorReady/>
+          <RemoteControlPlay/>
+        </Sequence>
+        
+        <!-- Follow Mode -->
+        <Sequence>
+          <IsRobotMode mode="follow"/>
+          <IsMotorReady/>
+          <ReactiveFallback name="follow_or_interact">
+            <!-- 핵심: 매 틱마다 컨디션을 재평가하려고 ReactiveSequence 사용 -->
+            <ReactiveSequence name="follow_until_request">
+              <Inverter>
+                <IsInteractionRequested/>
+              </Inverter>
+              <Explore/>
+            </ReactiveSequence>
+            <TryInteract/>
+          </ReactiveFallback>
+        </Sequence>
+        
+        <!-- Home Mode -->
+        <Sequence>
+          <IsRobotMode mode="home"/>
+          <IsMotorReady/>
+          <Delay delay_msec="2000">
+            <IsStationArrived status="undocked"/>
+          </Delay>
+          <SubTree ID="HomeMode"/>
+        </Sequence>
+      </ReactiveFallback>
+      
+      <!-- AUTO MODE -->
+      <!-- 2번(가장 오른쪽, 차선) -->
+      <Sequence>
+        <IsRobotMode mode="auto"/>
+        <IsMotorReady/>
+        <ReactiveFallback name="auto_mode_selector">
+          <!-- A) 초기화 -->
+          <!-- 조건: 배터리 ≥ 20% AND IsHomeInitDone이 아직 False -->
+          <!--
+          <Sequence name="initialization_home_sequence">
+            <IsBatteryChargedAtLeast percent="0.2"/>
+            <Inverter>
+              <IsHomeInitDone/>
+            </Inverter>
+            <TryNavigation command="1" status_key="InitHome"/>
+            <TryNavigation command="10" status_key="SearchAruco"/>
+
+            <ReactiveFallback name="WaitLocalInit_after_home">
+              <IsPoseCorrectionDone/>
+              <KeepRunningUntilFailure>
+                <Sequence>
+                  <TryNavigation command="0" status_key="IdleState"/>
+                  <Inverter>
+                    <IsPoseCorrectionDone/>
+                  </Inverter>
+                </Sequence>
+              </KeepRunningUntilFailure>
+            </ReactiveFallback>
+
+            <Delay delay_msec="1000">
+                  <TryNavigation command="5" status_key="RotateBehind"/>
+            </Delay>
+
+            <TryNavigation command="0" status_key="IdleState"/>
+
+            <SetHomeInitDone/>
+          </Sequence>
+          -->
+
+          <!--  B) LOW BATTERY: anywhere in auto mode, go find station [by. HomeMode 서브트리] -->
+          <!-- 조건: 배터리 < 20% AND 미도킹 상태 유지(undocked) 2초 -->
+          <!--
+          <Sequence name="low_battery_go_home">
+            <Sequence name="guard_low_battery_and_not_finished">
+              <Inverter>
+                <IsBatteryChargedAtLeast percent="0.2"/>
+              </Inverter>
+              <Delay delay_msec="2000">
+                <IsStationArrived status="undocked"/>
+              </Delay>
+            </Sequence>
+
+            <SubTree ID="HomeMode"/>
+          </Sequence>
+          -->
+
+          <!-- C) BRANCH 1: 초기화가 완료되었으면 메인 루프 실행 -->
+          <!-- 조건: 초기화 완료 AND 배터리 ≥ 20%-->
+          <Sequence name="main_interaction_loop">
+            <!-- <IsHomeInitDone/>
+            <IsBatteryChargedAtLeast percent="0.2"/> -->
+            <!-- <IfThenElse>
+              <SubTree ID="CheckAllFsr"/>
+              <ForceSuccess>
+                <TryInteract/>
+              </ForceSuccess> -->
+            <Explore/>
+            <!-- </IfThenElse> -->
+          </Sequence>
+
+        </ReactiveFallback>
+      </Sequence>
+    </ReactiveFallback>
+  </BehaviorTree>
+
+  <!-- SubTree 정의 -->
+  <!-- <BehaviorTree ID="CheckAllFsr">
+    <Fallback>
+      <IsFsrTouched num="0"/>
+      <IsFsrTouched num="1"/>
+      <IsFsrTouched num="2"/>
+      <IsFsrTouched num="3"/>
+      <IsFsrTouched num="4"/>
+      <IsFsrTouched num="5"/>
+      <IsFsrTouched num="6"/>
+      <IsFsrTouched num="7"/>
+      <IsFsrTouched num="8"/>
+      <IsFsrTouched num="9"/>
+      <IsFsrTouched num="10"/>
+      <IsFsrTouched num="11"/>
+    </Fallback>
+  </BehaviorTree> -->
+
+  <BehaviorTree ID="HomeMode">
+    <Sequence name="go_to_charging_station">
+      <!-- 1단계: 충전소 찾기 + ArUco 탐색 -->
+      <Sequence name="FindStation_then_SearchAruco_and_Wait">
+        <TryNavigation command="8" status_key="FindStationForCharge"/>
+        <TryNavigation command="10" status_key="SearchAruco"/>
+
+        <!-- 로컬 초기화 끝날 때까지 Idle 유지 -->
+        <ReactiveFallback name="WaitLocalInit_after_search">
+          <IsPoseCorrectionDone/>
+          <KeepRunningUntilFailure>
+            <Sequence>
+              <TryNavigation command="0" status_key="IdleState"/>
+              <Inverter>
+                <IsPoseCorrectionDone/>
+              </Inverter>
+            </Sequence>
+          </KeepRunningUntilFailure>
+        </ReactiveFallback>
+      </Sequence>
+
+      <!-- 2단계: PreAlign 위치로 이동 -->
+      <ReactiveFallback name="wait_for_pre-alignpose">
+        <Sequence>
+          <IsPoseCorrectionDone/>
+          <TryNavigation command="3" status_key="GoToPreAlignPose"/>
+        </Sequence>
+        <KeepRunningUntilFailure>
+          <Sequence>
+            <TryNavigation command="0" status_key="IdleState"/>
+            <Inverter>
+              <IsPoseCorrectionDone/>
+            </Inverter>
+          </Sequence>
+        </KeepRunningUntilFailure>
+      </ReactiveFallback>
+
+      <!-- 3단계: 충전소와 정렬 -->
+      <Fallback>
+        <Sequence>
+          <IsNavigationDone state_key="GoToPreAlignPose" state_value="0"/>
+
+          <Delay delay_msec="2000">
+            <TryNavigation command="4" status_key="AlignToStation"/>
+          </Delay>
+        </Sequence>
+      </Fallback>
+      
+      <!-- 4단계: 뒤로 돌기 -->
+      <Fallback>
+        <Sequence>
+          <IsNavigationDone state_key="AlignToStation" state_value="0"/>
+          <!-- 1초 대기 후 RotateBehind 실행 -->
+          <Delay delay_msec="1000">
+            <TryNavigation command="5" status_key="RotateBehind"/>
+          </Delay>
+        </Sequence>
+      </Fallback>
+
+      <!-- 5단계: 뒤로 이동 (도킹) -->
+      <Fallback>
+        <Sequence>
+          <IsNavigationDone state_key="RotateBehind" state_value="0"/>
+          <!-- 1초 대기 후 GoBack 실행 -->
+          <Delay delay_msec="1000">
+            <TryNavigation command="6" status_key="GoBack"/>
+          </Delay>
+          <TryNavigation command="0" status_key="IdleState"/>
+        </Sequence>
+      </Fallback>
+
+    </Sequence>
+  </BehaviorTree>
+
+  <!-- Description of Node Models (used by Groot) -->
+  <TreeNodesModel>
+    <Action ID="Explore"
+            editable="true"/>
+    <Condition ID="IsFsrTouched"
+               editable="true">
+      <input_port name="num"
+                  default="0">FSR number 0~4</input_port>
+    </Condition>
+    <Condition ID="IsRobotMode"
+               editable="true">
+      <input_port name="mode"
+                  default="manual">manual, auto, remote, follow, home</input_port>
+    </Condition>
+    <Condition ID="IsMotorReady"
+               editable="true"/>
+    <Action ID="RemoteControlPlay"
+            editable="true"/>
+    <Action ID="TryInteract"
+            editable="true"/>
+    <Condition ID="IsNavigationDone"
+               editable="true">
+      <input_port name="state_key">key for navigation status</input_port>
+      <input_port name="state_value">expected value for the key</input_port>
+    </Condition>
+    <Action ID="TryNavigation"
+            editable="true">
+      <input_port name="command" default="0">navigation command index</input_port>
+      <input_port name="status_key">key for navigation status</input_port>
+      <!-- # ===== Command indices =====
+      CMD_IDLE                 = 0
+      CMD_INIT_HOME            = 1
+      CMD_SPIN_ONCE            = 2
+      CMD_GO_TO_PRE_ALIGN_POSE = 3 
+      CMD_ALIGNMENT            = 4
+      CMD_ROTATE_BEHIND               = 5
+      CMD_GO_BACK              = 6
+      CMD_FIND_STATION_INIT    = 7
+      CMD_FIND_STATION_CHARGE  = 8
+      CMD_SEARCH_ARUCO         = 10 -->
+    </Action>
+    <Condition ID="IsPoseCorrectionDone" editable="true"/>
+    <Condition ID="IsArucoVisible" editable="true"/>
+    <Condition ID="IsBatteryChargedAtLeast" editable="true">
+       <input_port name="percent" default="0.2">Battery percentage threshold</input_port>
+    </Condition>
+    <Condition ID="IsStationArrived" editable="true">
+       <input_port name="status" default="docked">"docked" or "undocked"</input_port>
+    </Condition>
+    <Condition ID="IsHomeInitDone" editable="true"/>
+    <Action ID="SetHomeInitDone" editable="true"/>
+  </TreeNodesModel>
+
+</root>

@@ -1,0 +1,10 @@
+<library path="inwheel_motor_hardware">
+  <class name="inwheel_motor_hardware/InwheelMotorHardware"
+         type="inwheel_motor_hardware::InwheelMotorHardware"
+         base_class_type="hardware_interface::SystemInterface">
+    <description>
+      The HERoEHS and AeiROBOT Inwheel Motor System Interface.
+    </description>
+  </class>
+
+</library>

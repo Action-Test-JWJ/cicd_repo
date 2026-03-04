@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root BTCPP_format="4" project_name="Project">
+    <include path="edie_bt.xml"/>
+    <!-- Description of Node Models (used by Groot) -->
+    <TreeNodesModel>
+        <Action ID="Explore" editable="true"/>
+        <Condition ID="IsBatteryChargedAtLeast" editable="true">
+            <input_port name="percent" default="100">0~100</input_port>
+        </Condition>
+        <Condition ID="IsEmergencyDetected" editable="true"/>
+        <!-- <Condition ID="IsFsrHit" editable="true">
+            <input_port name="num" default="0">0~4</input_port>
+        </Condition> -->
+        <Condition ID="IsMotorReady" editable="true"/>
+        <Condition ID="IsFsrTouched" editable="true">
+            <input_port name="num" default="0">FSR number 0~4</input_port>
+        </Condition>
+        <Condition ID="IsInteractionRequested" editable="true"/>
+        <Condition ID="IsInteractionTargetDetected" editable="true"/>
+        <Condition ID="IsReadyToAction" editable="true"/>
+        <Condition ID="IsPoseCorrectionDone" editable="true"/>
+        <Condition ID="IsRobotMode" editable="true">
+            <input_port name="mode" default="manual">manual, auto</input_port>
+        </Condition>
+        <Condition ID="IsArucoVisible" editable="true"/>
+        <Action ID="MoveTo" editable="true">
+            <input_port name="location" default="home">home</input_port>
+        </Action>
+        <Action ID="RemoteControlPlay" editable="true"/>
+        <Action ID="SendEmergencySignal" editable="true"/>
+        <Action ID="SetAction" editable="true">
+            <input_port name="num" default="0">0~4</input_port>
+        </Action>
+        <Action ID="SetState" editable="true">
+            <input_port name="num" default="0"/>
+        </Action>
+        <Action ID="TryCharge" editable="true"/>
+        <Action ID="TryInteract" editable="true"/>
+        <Condition ID="IsNavigationDone"
+                   editable="true">
+          <input_port name="state_key">key for navigation status</input_port>
+          <input_port name="state_value">expected value for the key</input_port>
+        </Condition>
+        <Action ID="TryNavigation"
+                editable="true">
+          <input_port name="command" default="0">navigation command index</input_port>
+          <input_port name="status_key">key for navigation status</input_port>
+        </Action>
+    </TreeNodesModel>
+</root>

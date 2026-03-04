@@ -1,0 +1,15 @@
+edie_camera_pub:
+  ros__parameters:
+    # General settings
+    image_width: 640
+    image_height: 480
+    visualize: false
+    device: /dev/video0
+    exposure: 600
+
+    # Undistortion control
+    use_undistort: true
+
+    # Specify which calibration file to load from the config directory.
+    # Options: "pinhole_config.yaml", "equidistant_config.yaml", "kannala_brandt_config.yaml"
+    calibration_file: "equidistant_config.yaml" #ov9281

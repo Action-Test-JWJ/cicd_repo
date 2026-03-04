@@ -1,0 +1,30 @@
+[Unit]
+Description=edie boot auto-execute script
+After=graphical.target
+
+[Service]
+User=vraptor
+ExecStart=/home/vraptor/bootscript.sh
+
+Environment="HOME=/home/vraptor"
+Environment="ROS2_WS=ros2_ws"
+Environment="ROS_WS=/home/vraptor/ros2_ws"
+Environment="DISPLAY=:0"
+Environment="XAUTHORITY=/home/vraptor/.Xauthority"
+###############################################################################
+Environment="ROS_DOMAIN_ID=32" #### 로봇마다 도메인 ID 다르니 확인 후 적용!!!#########
+###############################################################################
+Environment="RMW_IMPLEMENTATION=rmw_fastrtps_cpp"
+Environment="GTISDKPATH=/home/vraptor/ros2_ws/src/edie8/edie_vora/edie_emotion_detection/edie_emotion_detection"
+
+Environment="PYTHONPATH=/home/vraptor/ros2_ws/src/edie8/edie_vora/edie_emotion_detection/edie_emotion_detection"
+
+Environment="LD_LIBRARY_PATH=/home/vraptor/ros2_ws/install/topic_based_ros2_control/lib:/home/vraptor/ros2_ws/install/edie_passthrough_controller/lib:/home/vraptor/ros2_ws/install/_localization_manager/lib:/home/vraptor/ros2_ws/install/edie_joint_trajectory_controller/lib:/home/vraptor/ros2_ws/install/edie_hardware/lib:/home/vraptor/ros2_ws/install/edie_msgs/lib:/home/vraptor/ros2_ws/install/edie_diff_drive_controller/lib:/home/vraptor/ros2_ws/install/aeirobot_math/lib:/home/vraptor/ros2_ws/install/aeirobot_toolbox/lib:/home/vraptor/ros2_ws/install/aeirobot_msgs/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/aarch64-linux-gnu:/opt/ros/humble/lib:/home/vraptor:/home/vraptor/ros2_ws/src/edie8/edie_vora/edie_emotion_detection/edie_emotion_detection/Lib/Linux/aarch64"
+
+SupplementaryGroups=adm dialout cdrom audio video plugdev input bluetooth netdev i2c gpio
+Restart=on-failure
+
+TimeoutStopSec=5s
+
+[Install]
+WantedBy=graphical.target

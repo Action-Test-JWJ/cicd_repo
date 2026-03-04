@@ -1,0 +1,124 @@
+
+# action_index
+# 0 : -
+# 1 : CURIOUS
+# 2 : SLEEPY
+# 3 : AMUSED
+# 4 : HOPEFUL
+# 5 : CRYING
+# 6 : SURPRISED
+# 7 : SURPRISED_2
+# 8 : DISAPPOINTED
+# 9 : LOVE
+# 10: DIZZY
+# 11: DIZZY_2
+
+# display_index
+# 0 : BLINK
+# 1 : CURIOUS
+# 2 : SLEEPY
+# 3 : AMUSED
+# 4 : HOPEFUL
+# 5 : CRYING
+# 6 : SURPRISED
+# 7 : SURPRISED_2
+# 8 : DISAPPOINTED
+# 9 : LOVE
+
+
+# sound_index
+# 0 : Humming_sound = SLEEPY
+# 1 : laugh_001 = HOPEFUL
+# 2 : laugh_002 = HOPEFUL
+# 3 : admiration_001 = AMUSED
+# 4 : question_001 = CURIOUS
+# 5 : grouchy_002 = CRYING
+# 6 : surprise_001 = SURPRISED
+# 7 : grouchy_001 = DISAPPOINTED
+# 8 : grouchy_003 = DISAPPOINTED
+# 9 : mumble_002 = LOVE
+
+
+
+
+
+# --------------------------------------------------------------------------
+
+## emotion_index[emo] : emotion_state
+## 옵션이 있으면 후보에서 랜덤 선택, 없으면 display_index/sound_index 단일 기본값으로 동작
+
+# CURIOUS
+1:
+  display_index: 1
+  sound_index: 4
+  motion_index: 1
+
+
+# SLEEPY
+2:
+  display_index: 2
+  sound_index: 0
+  motion_index: 2
+
+
+# AMUSED
+3:
+  display_index: 3
+  sound_index: 3
+  motion_index: 3
+  display_options: [3, 4] # AMUSED, HOPEFUL
+  sound_options: [1, 2, 3]   # laugh_001.wav, laugh_002.wav, admiration_001.wav
+
+
+# HOPEFUL
+4:
+  display_index: 4
+  sound_index: 1
+  motion_index: 4
+  display_options: [3, 4] # AMUSED, HOPEFUL
+  sound_options: [1, 2, 3]   # laugh_001.wav, laugh_002.wav, admiration_001.wav
+
+
+# CRYING
+5:
+  display_index: 5       
+  sound_index: 5      
+  motion_index: 5
+
+# SURPRISED
+6:
+  display_index: 6
+  sound_index: 6
+  motion_index: 6
+  display_options: [6, 7] # SURPRISED, SURPRISED_2
+
+# SURPRISED_2
+7:
+  display_index: 7
+  sound_index: 6
+  motion_index: 7
+  display_options: [6, 7] # SURPRISED, SURPRISED_2
+
+# DISAPPOINTED
+8:
+  display_index: 8
+  sound_index: 7
+  motion_index: 8
+
+# LOVE
+9:
+  display_index: 9
+  sound_index: 9
+  motion_index: 9
+
+# DIZZY
+10:
+  display_index: 10
+  sound_index: 8
+  motion_index: 11
+
+# DIZZY_2
+11:
+  display_index: 11
+  sound_index: 8
+  motion_index: 11

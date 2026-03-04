@@ -1,0 +1,2 @@
+bool pos_accepted
+int32 hand_id

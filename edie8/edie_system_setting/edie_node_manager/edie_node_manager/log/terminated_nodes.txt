@@ -1,0 +1,28 @@
+
+[2024-02-05 14:49:08] 다음 노드들이 실행되지 않았습니다:
+   - alice3_footstep_planner
+   - aeirobot_whole_body_controller
+   - alice3_footstep_generator
+   - default_server_endpoint
+   - alice3_path_planner_node
+
+[2024-02-05 14:49:11] 다음 노드들이 실행되지 않았습니다:
+   - default_server_endpoint
+   - aeirobot_whole_body_controller
+   - alice3_path_planner_node
+   - alice3_footstep_generator
+
+[2024-02-05 14:49:14] 다음 노드들이 실행되지 않았습니다:
+   - default_server_endpoint
+   - alice3_path_planner_node
+   - alice3_footstep_generator
+
+[2024-02-05 14:49:17] 다음 노드들이 실행되지 않았습니다:
+   - alice3_path_planner_node
+   - default_server_endpoint
+
+[2024-02-05 14:49:20] 다음 노드들이 실행되지 않았습니다:
+   - alice3_path_planner_node
+
+[2024-02-05 14:49:53] 다음 노드들이 실행되지 않았습니다:
+   - aeirobot_whole_body_controller

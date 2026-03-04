@@ -1,0 +1,45 @@
+edie_mobile_node:
+  ros__parameters:
+    use_sim_time: false
+
+    Point1_x : -1.35
+    Point1_y : 0.0
+    Point1_theta : 1.5708
+
+    Point2_x : -0.3
+    Point2_y : 0.0
+    Point2_theta : 0.0
+
+    Point3_x : 0.0
+    Point3_y : 0.0
+    Point3_theta : 0.0
+
+    Point4_x : 0.0
+    Point4_y : 0.0
+    Point4_theta : 0.0
+
+    stanley_linear_gain : 0.9
+
+    rotational_PID:
+        P: 1.7
+        I: 0.02
+        D: 0.6
+
+        # rotation max velocity : 0.5
+        # min velocity : -0.5
+        max_state: 0.7
+        min_state: -0.7
+
+    translation_PID:
+        P: 0.75
+        I: 0.01
+        D: 0.6
+
+        # linear max velocity : 0.2
+        # min velocity : -0.2
+        max_state: 0.3
+        min_state: -0.3
+
+    robot_stop:
+        dist_stop_condition: 0.1
+        rotational_stop_condition: 0.15

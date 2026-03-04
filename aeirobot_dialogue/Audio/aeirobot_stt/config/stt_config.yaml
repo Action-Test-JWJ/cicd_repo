@@ -1,0 +1,17 @@
+aeirobot_stt:
+  ros__parameters:
+    pub:
+      pub_stt_result: '/aeirobot/stt/result'
+    sub:      
+      sub_speaker_status: '/aeirobot/asr/status'
+      sub_wav_path: '/aeirobot/asr/file'
+      # sub_asr_stream: '/aeirobot/asr/stream'
+  stt__parameters:
+    sample_rate: 48000
+    stt_mode: 'sensevoice'  # 'localhost' (API 서버) 또는 'google' (Google Speech Recognition) 또는 whisper, sensevoice
+    language: 'ko-KR'
+    cleanup_wav: false
+    device: 'cpu'
+    api:
+      host: 'localhost'
+      port: 8000

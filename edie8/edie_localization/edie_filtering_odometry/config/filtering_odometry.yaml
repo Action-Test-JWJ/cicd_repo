@@ -1,0 +1,23 @@
+edie_filtering_odom_node:
+  ros__parameters:
+    use_modeled_odom: true
+    nr_samples: 100               # 300 -> (Apr 1) 100
+    lpf_x_cutoff: 2.0             # 0.01 -> (Apr 14) 0.5 -> 0.6
+    lpf_y_cutoff: 2.0             # 0.01 -> (Apr 14) 0.5 -> 0.6
+    lpf_yaw_cutoff: 2.0           # 0.01 -> (Apr 14) 0.5 -> 0.6
+    weight_pos: 1.0
+    weight_yaw: 1.0
+    translation_threshold: 0.003
+    rotation_threshold: 0.015
+    ## odom
+    # 제자리 회전일 때
+    high_odom_yaw_noise: 1.0  
+    high_odom_vx_noise: 0.01
+    # 주행일 때
+    low_odom_yaw_noise: 0.0001  
+    low_odom_vx_noise: 0.001
+    ## imu
+    # 주행일 때
+    high_imu_yaw_noise: 0.001  
+    # 제자리 회전일 때
+    low_imu_yaw_noise: 0.00001 

@@ -1,0 +1,14 @@
+[Unit]
+Description=Bring up slcan can0 on /dev/ttyACM0
+After=dev-ttyACM0.device
+Requires=dev-ttyACM0.device
+
+[Service]
+Type=forking
+ExecStart=/usr/bin/slcand -o -c -s8 /dev/ttyACM0 can0
+ExecStartPost=/usr/sbin/ip link set can0 up
+ExecStartPost=/usr/sbin/ip link set can0 txqueuelen 1000
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

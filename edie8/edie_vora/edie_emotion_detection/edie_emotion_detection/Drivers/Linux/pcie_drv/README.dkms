@@ -1,0 +1,22 @@
+In case you want to use dkms:
+
+#install dkms on ubuntu 16.04
+sudo apt update
+sudo apt install -y dkms
+
+#install the kernel module as version 1.0 to the current kernel
+sudo cp -R . /usr/src/pcie_drv-1.0
+sudo dkms add pcie_drv/1.0
+sudo dkms build pcie_drv/1.0
+sudo dkms install pcie_drv/1.0
+sudo modprobe gti_pcie_drv
+#please see /var/lib/dkms/pcie_drv/1.0 for build results
+
+#to make insmod happen at boot up
+#add line "gti_pcie_drv" to file "/etc/modules"
+
+#remove the kernel module from the current kernel
+sudo dkms remove pcie_drv/1.0 --all
+sudo rm -r /usr/src/pcie_drv-1.0
+sudo rmmod gti_pcie_drv
+

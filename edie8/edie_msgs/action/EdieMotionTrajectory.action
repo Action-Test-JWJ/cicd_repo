@@ -1,0 +1,11 @@
+# Goal
+float64[] position
+string traj_type
+float64 time
+---
+# Result
+bool motion_done
+bool success
+---
+# Feedback
+float64 current_position
