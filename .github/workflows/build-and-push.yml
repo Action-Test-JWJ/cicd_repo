@@ -21,3 +21,5 @@ jobs:
           push: false
           platforms: linux/arm64
           tags: cicd_repo:dev
+          build-args: |
+            BASE_IMAGE=jaewook6488/cicd_docker_repo:base

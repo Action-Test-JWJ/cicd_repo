@@ -1,4 +1,5 @@
-FROM ros:humble AS build
+ARG BASE_IMAGE=ros:humble
+FROM ${BASE_IMAGE} AS build
 
 COPY test_counter /ros2_ws/src/test_counter
 
@@ -8,7 +9,7 @@ RUN . /opt/ros/humble/setup.sh && \
     colcon test && \
     colcon test-result --verbose
 
-FROM ros:humble
+FROM ${BASE_IMAGE}
 
 COPY --from=build /ros2_ws/install /ros2_ws/install
 
