@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="aeirobot">
+
+    <xacro:include filename="sim_edie8_core.gazebo.xacro" />
+    <xacro:include filename="sim_imu.gazebo.xacro" />
+    <xacro:include filename="sim_lidar.gazebo.xacro" />
+    <xacro:include filename="sim_camera.gazebo.xacro" />
+    <xacro:include filename="sim_edie8_ros2_control.gazebo.xacro"/>
+    <!-- <xacro:include filename="sim_edie8_gazeobo_plugin.gazebo.xacro"/> -->
+</robot>

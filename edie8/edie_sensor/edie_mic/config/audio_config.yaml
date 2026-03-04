@@ -1,0 +1,13 @@
+aeirobot_asr:
+  ros__parameters:
+    pub:
+      pub_audio: '/aeirobot/edie/audio'
+    # sub:  
+
+  audio__parameters:
+    # 오디오 설정
+    sample_rate: 48000
+    default_device: DeepFilterMic #'alsa_input.usb-Generic_BSX_USB_Audio_20210926172016-00.mono-fallback'
+    # default_device: "MV88"
+    channels: 1
+    output_device: ''              # 비워두면 기본 출력 장치 사용

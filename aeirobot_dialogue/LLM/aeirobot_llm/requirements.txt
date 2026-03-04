@@ -1,0 +1,8 @@
+python-dotenv
+
+langchain==0.2.17
+langchain-core==0.2.43
+langchain-community==0.2.19
+langchain_openai==0.1.25
+langchain_ollama==0.1.3
+chromadb==1.3.5

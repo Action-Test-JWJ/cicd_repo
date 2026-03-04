@@ -1,0 +1,3 @@
+string status
+int32 hand_id
+int32[6] speed

@@ -1,0 +1,17 @@
+[Unit]
+Description=EDIE8 Display Service
+After=graphical.target
+Wants=graphical.target
+
+[Service]
+ExecStart=/home/vraptor/ros2_ws/src/edie8/edie_system_setting/shellscript/edie8_inverted_display.sh
+Restart=no
+User=vraptor
+Group=vraptor
+Environment=DISPLAY=:0
+Environment=XAUTHORITY=/home/vraptor/.Xauthority
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=default.target

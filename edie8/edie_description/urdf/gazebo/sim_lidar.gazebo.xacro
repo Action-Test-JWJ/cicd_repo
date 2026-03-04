@@ -1,0 +1,123 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" >
+
+    <joint name="left_front_range_sensor_joint" type="fixed">
+        <parent link="chassis"/>
+        <child link="left_front_range_sensor"/>
+        <origin xyz="0.036 0.055 0.085" rpy="0 -0.6 0"/>
+    </joint>
+
+    <link name="left_front_range_sensor">
+    </link>
+
+    <joint name="right_front_range_sensor_joint" type="fixed">
+        <parent link="chassis"/>
+        <child link="right_front_range_sensor"/>
+        <origin xyz="0.036 -0.055 0.085" rpy="0 -0.6 0"/>
+    </joint>
+
+    <link name="right_front_range_sensor">
+    </link>
+
+    <joint name="bottom_range_sensor_joint" type="fixed">
+        <parent link="chassis"/>
+        <child link="bottom_range_sensor"/>
+        <origin xyz="0.09 0 -0.04" rpy="0 ${pi/2.0} 0"/>
+    </joint>
+
+    <link name="bottom_range_sensor">
+    </link>
+
+    <gazebo reference="left_front_range_sensor">
+        <material>Gazebo/Black</material>
+        <sensor name="laser" type="ray">
+            <pose> 0 0 0 0 0 0 </pose>
+            <visualize>true</visualize>
+            <update_rate>20</update_rate>
+            <ray> 
+                <scan>
+                    <horizontal>
+                        <samples>2</samples>
+                        <min_angle>-0.174533</min_angle>
+                        <max_angle>0.174533</max_angle>
+                        <increment>0.34906</increment>
+                    </horizontal>
+                </scan>
+                <range>
+                    <min>0.05</min>
+                    <max>1.5</max>
+                </range>   
+            </ray>
+            <plugin name="lf_laser_controller" filename="libgazebo_ros_ray_sensor.so">
+                <ros>
+                    <namespace>/edie8/sensor/left_front</namespace>
+                    <remapping>~/out:=laser_values</remapping>
+                </ros>
+                    <output_type>sensor_msgs/LaserScan</output_type>
+                <frame_name>left_front_range_sensor_joint</frame_name>
+            </plugin>
+        </sensor>
+    </gazebo>
+
+    <gazebo reference="right_front_range_sensor">
+        <material>Gazebo/Black</material>
+        <sensor name="laser" type="ray">
+            <pose> 0 0 0 0 0 0 </pose>
+            <visualize>true</visualize>
+            <update_rate>20</update_rate>
+            <ray> 
+                <scan>
+                    <horizontal>
+                        <samples>2</samples>
+                        <min_angle>-0.174533</min_angle>
+                        <max_angle>0.174533</max_angle>
+                        <increment>0.34906</increment>
+                    </horizontal>
+                </scan>
+                <range>
+                    <min>0.05</min>
+                    <max>1.5</max>
+                </range>   
+            </ray>
+            <plugin name="rf_laser_controller" filename="libgazebo_ros_ray_sensor.so">
+                <ros>
+                    <namespace>/edie8/sensor/right_front</namespace>
+                    <remapping>~/out:=laser_values</remapping>
+                </ros>
+                    <output_type>sensor_msgs/LaserScan</output_type>
+                <frame_name>right_front_range_sensor_joint</frame_name>
+            </plugin>
+        </sensor>
+    </gazebo>
+
+    <gazebo reference="bottom_range_sensor">
+        <material>Gazebo/Black</material>
+        <sensor name="laser" type="ray">
+            <pose> 0 0 0 0 0 0 </pose>
+            <visualize>true</visualize>
+            <update_rate>20</update_rate>
+            <ray> 
+                <scan>
+                    <horizontal>
+                        <samples>2</samples>
+                        <min_angle>-0.174533</min_angle>
+                        <max_angle>0.174533</max_angle>
+                        <increment>0.34906</increment>
+                    </horizontal>
+                </scan>
+                <range>
+                    <min>0.05</min>
+                    <max>1.5</max>
+                </range>   
+            </ray>
+            <plugin name="bt_laser_controller" filename="libgazebo_ros_ray_sensor.so">
+                <ros>
+                    <namespace>/edie8/sensor/bottom</namespace>
+                    <remapping>~/out:=laser_values</remapping>
+                </ros>
+                    <output_type>sensor_msgs/LaserScan</output_type>
+                <frame_name>bottom_range_sensor_joint</frame_name>
+            </plugin>
+        </sensor>
+    </gazebo>
+</robot>

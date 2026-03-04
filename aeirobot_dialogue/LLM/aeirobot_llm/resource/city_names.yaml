@@ -1,0 +1,410 @@
+# 2_dialogue/aimy_llm/resource/city_names.yaml
+
+# 서울특별시
+서울: Seoul
+
+# 광역시
+부산: Busan
+인천: Incheon
+대구: Daegu
+광주: Gwangju
+대전: Daejeon
+울산: Ulsan
+
+# 경기도
+수원: Suwon
+성남: Seongnam
+고양: Goyang
+용인: Yongin
+부천: Bucheon
+안산: Ansan
+안양: Anyang
+남양주: Namyangju
+화성: Hwaseong
+평택: Pyeongtaek
+의정부: Uijeongbu
+시흥: Siheung
+파주: Paju
+김포: Gimpo
+광명: Gwangmyeong
+군포: Gunpo
+오산: Osan
+이천: Icheon
+양주: Yangju
+안성: Anseong
+
+# 강원도
+춘천: Chuncheon
+원주: Wonju
+강릉: Gangneung
+동해: Donghae
+태백: Taebaek
+속초: Sokcho
+삼척: Samcheok
+
+# 충청북도
+청주: Cheongju
+충주: Chungju
+제천: Jecheon
+
+# 충청남도
+천안: Cheonan
+공주: Gongju
+보령: Boryeong
+아산: Asan
+서산: Seosan
+논산: Nonsan
+계룡: Gyeryong
+
+# 전라북도
+전주: Jeonju
+군산: Gunsan
+익산: Iksan
+정읍: Jeongeup
+남원: Namwon
+김제: Gimje
+
+# 전라남도
+목포: Mokpo
+여수: Yeosu
+순천: Suncheon
+나주: Naju
+광양: Gwangyang
+
+# 경상북도
+포항: Pohang
+경주: Gyeongju
+김천: Gimcheon
+안동: Andong
+구미: Gumi
+영주: Yeongju
+영천: Yeongcheon
+상주: Sangju
+경산: Gyeongsan
+
+# 경상남도
+창원: Changwon
+진주: Jinju
+통영: Tongyeong
+사천: Sacheon
+김해: Gimhae
+밀양: Miryang
+거제: Geoje
+양산: Yangsan
+
+# 제주특별자치도
+제주: Jeju
+
+# 미국 주요 도시
+뉴욕: New York
+로스앤젤레스: Los Angeles
+시카고: Chicago
+휴스턴: Houston
+피닉스: Phoenix
+필라델피아: Philadelphia
+샌안토니오: San Antonio
+샌디에고: San Diego
+댈러스: Dallas
+샌호세: San Jose
+워싱턴 DC: Washington D.C.
+보스턴: Boston
+라스베가스: Las Vegas
+시애틀: Seattle
+마이애미: Miami
+샌프란시스코: San Francisco
+덴버: Denver
+애틀랜타: Atlanta
+디트로이트: Detroit
+포틀랜드: Portland
+미니애폴리스: Minneapolis
+오클라호마시티: Oklahoma City
+주노: Juneau
+내슈빌: Nashville
+콜럼버스: Columbus
+프레즈노: Fresno
+메사: Mesa
+샌타안나: Santa Ana
+오마하: Omaha
+워릭: Warwick
+라피엣: Lafayette
+버지니아비치: Virginia Beach
+아틀란타: Atlanta
+클리블랜드: Cleveland
+스톡턴: Stockton
+헨더슨: Henderson
+체서피크: Chesapeake
+로우스: Lowell
+리틀록: Little Rock
+타코마: Tacoma
+
+# 유럽
+런던: London
+파리: Paris
+베를린: Berlin
+마드리드: Madrid
+로마: Rome
+암스테르담: Amsterdam
+브뤼셀: Brussels
+비엔나: Vienna
+스톡홀름: Stockholm
+코펜하겐: Copenhagen
+오슬로: Oslo
+헬싱키: Helsinki
+프라하: Prague
+부다페스트: Budapest
+바르샤바: Warsaw
+아테네: Athens
+리스본: Lisbon
+더블린: Dublin
+취리히: Zurich
+모스크바: Moscow
+
+# 추가된 유럽 주요 도시
+# 영국
+맨체스터: Manchester
+버밍햄: Birmingham
+글래스고: Glasgow
+
+# 프랑스
+리옹: Lyon
+마르세유: Marseille
+니스: Nice
+
+# 독일
+함부르크: Hamburg
+뮌헨: Munich
+프랑크푸르트: Frankfurt
+
+# 스페인
+발렌시아: Valencia
+세비야: Seville
+바르셀로나: Barcelona
+
+# 이탈리아
+밀라노: Milan
+나폴리: Naples
+토리노: Turin
+
+# 네덜란드
+로테르담: Rotterdam
+하를렘: Haarlem
+우트레흐트: Utrecht
+
+# 벨기에
+안트워프: Antwerp
+겐트: Ghent
+브뤼헤: Bruges
+
+# 오스트리아
+그라츠: Graz
+린츠: Linz
+잘츠부르크: Salzburg
+
+# 스웨덴
+고텐부르크: Gothenburg
+말뫼: Malmö
+우메오: Umeå
+
+# 덴마크
+올보르: Aalborg
+오르후스: Aarhus
+
+# 폴란드
+크라쿠프: Kraków
+로츠: Łódź
+브로츠와프: Wrocław
+
+# 체코
+브르노: Brno
+플젠: Plzeň
+올로모우츠: Olomouc
+
+# 헝가리
+데브레첸: Debrecen
+세게드: Szeged
+미슈콜츠: Miskolc
+
+# 그리스
+테살로니키: Thessaloniki
+파트라: Patras
+헤라클리온: Heraklion
+
+# 아시아
+# 동아시아
+도쿄: Tokyo
+베이징: Beijing
+상하이: Shanghai
+홍콩: Hong Kong
+타이베이: Taipei
+# 동남아시아
+싱가포르: Singapore
+방콕: Bangkok
+자카르타: Jakarta
+쿠알라룸푸르: Kuala Lumpur
+호치민: Ho Chi Minh City
+마닐라: Manila
+양곤: Yangon
+세부: Cebu
+
+# 중앙아시아
+알마티: Almaty
+타슈켄트: Tashkent
+두샨베: Dushanbe
+아슈하바트: Ashgabat
+비슈케크: Bishkek
+아스타나: Nur-Sultan
+
+# 서아시아
+이스탄불: Istanbul
+테헤란: Tehran
+리야드: Riyadh
+두바이: Dubai
+아부다비: Abu Dhabi
+베이루트: Beirut
+안카라: Ankara
+바그다드: Baghdad
+
+# 남아시아
+뉴델리: New Delhi
+뭄바이: Mumbai
+콜카타: Kolkata
+카트만두: Kathmandu
+스리자야와르다나푸라코테: Sri Jayawardenepura Kotte
+첸나이: Chennai
+하이데라바드: Hyderabad
+
+# 북아시아
+노보시비르스크: Novosibirsk
+야쿠츠크: Yakutsk
+크라스노야르스크: Krasnoyarsk
+하바롭스크: Khabarovsk
+블라디보스토크: Vladivostok
+
+# 아프리카
+카이로: Cairo
+요하네스버그: Johannesburg
+케이프타운: Cape Town
+나이로비: Nairobi
+라고스: Lagos
+카사블랑카: Casablanca
+알렉산드리아: Alexandria
+아디스아바바: Addis Ababa
+
+# 오세아니아
+시드니: Sydney
+멜버른: Melbourne
+브리즈번: Brisbane
+퍼스: Perth
+오클랜드: Auckland
+웰링턴: Wellington
+
+# 남아메리카
+상파울루: São Paulo
+리우데자네이루: Rio de Janeiro
+부에노스아이레스: Buenos Aires
+리마: Lima
+보고타: Bogotá
+산티아고: Santiago
+카라카스: Caracas
+몬테비데오: Montevideo
+
+# 북아메리카 (캐나다)
+토론토: Toronto
+몬트리올: Montreal
+밴쿠버: Vancouver
+캘거리: Calgary
+오타와: Ottawa
+
+# 중앙아메리카
+멕시코시티: Mexico City
+과테말라시티: Guatemala City
+파나마시티: Panama City
+산호세: San José
+
+# 전세계 주요 국가
+대한민국: South Korea
+미국: United States
+중국: China
+일본: Japan
+독일: Germany
+프랑스: France
+영국: United Kingdom
+인도: India
+브라질: Brazil
+러시아: Russia
+캐나다: Canada
+호주: Australia
+이탈리아: Italy
+스페인: Spain
+멕시코: Mexico
+인도네시아: Indonesia
+네덜란드: Netherlands
+터키: Turkey
+사우디아라비아: Saudi Arabia
+스웨덴: Sweden
+스위스: Switzerland
+벨기에: Belgium
+폴란드: Poland
+노르웨이: Norway
+아르헨티나: Argentina
+남아프리카공화국: South Africa
+오스트리아: Austria
+덴마크: Denmark
+핀란드: Finland
+그리스: Greece
+체코: Czech Republic
+헝가리: Hungary
+아이슬란드: Iceland
+루마니아: Romania
+불가리아: Bulgaria
+슬로바키아: Slovakia
+크로아티아: Croatia
+세르비아: Serbia
+슬로베니아: Slovenia
+우크라이나: Ukraine
+모로코: Morocco
+알제리: Algeria
+튀니지: Tunisia
+이집트: Egypt
+베트남: Vietnam
+필리핀: Philippines
+말레이시아: Malaysia
+태국: Thailand
+아랍에미리트: United Arab Emirates
+카타르: Qatar
+쿠웨이트: Kuwait
+오만: Oman
+바레인: Bahrain
+이스라엘: Israel
+레바논: Lebanon
+요르단: Jordan
+시리아: Syria
+이라크: Iraq
+파키스탄: Pakistan
+네팔: Nepal
+방글라데시: Bangladesh
+스리랑카: Sri Lanka
+미얀마: Myanmar
+라오스: Laos
+캄보디아: Cambodia
+브루나이: Brunei
+몽골: Mongolia
+키르기스스탄: Kyrgyzstan
+우즈베키스탄: Uzbekistan
+타지키스탄: Tajikistan
+아제르바이잔: Azerbaijan
+조지아: Georgia
+바르바도스: Barbados
+자메이카: Jamaica
+트리니다드토바고: Trinidad and Tobago
+도미니카공화국: Dominican Republic
+푸에르토리코: Puerto Rico
+코스타리카: Costa Rica
+파나마: Panama
+과테말라: Guatemala
+온두라스: Honduras
+엘살바도르: El Salvador
+니카라과: Nicaragua
+칠레: Chile
+페루: Peru
+콜롬비아: Colombia

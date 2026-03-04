@@ -1,0 +1,18 @@
+edie_imu_node:
+  ros__parameters:
+    use_low_pass_filter: true
+    use_kalman_filter: false
+    sample_freq: 400
+    # Kalman Filter Parameters
+    Q_cov: 0.000005          # 0.00001 -> 0.000005(by far best)
+    R_cov: 0.0001            # 0.0005 -> 0.0001(by far best)  
+    # Low Pass Filter Parameters
+    lpf_accel_cutoff: 12.0  # 0.7 -> 2.0 -> 5.0(반응성-outlier 제거 Trade-off best)   
+    lpf_gyro_cutoff: 12.0   # 0.8 -> 2.0 -> 6.0(반응성-outlier 제거 Trade-off best)     -> 10.0(?)
+    # One Euro Filter Parameters
+    min_cutoff: 0.1   # 1.0 -> 0.3 -> 0.1 (by far best)
+    beta: 0.7        # 0.02 -> 1.0  # 2.0 -> 1.0 -> 0.5 -> 0.6 (by far best)
+    dcutoff: 1.0  
+    # Zero Velocity Detection Parameters
+    zero_vel_accel_threshold: 0.1  #0.5 #0.04  # [g] 단위에서 오차 허용 범위
+    zero_vel_gyro_threshold: 10.0  # [deg/s] 단위에서 오차 허용 범위

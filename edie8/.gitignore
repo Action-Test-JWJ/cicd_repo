@@ -1,0 +1,10 @@
+.vscode/
+venv/
+
+# AI 모델 추론 파일
+*.model
+
+# Python 컴파일된 파일과 캐시 디렉터리
+*.pyc
+__pycache__/
+

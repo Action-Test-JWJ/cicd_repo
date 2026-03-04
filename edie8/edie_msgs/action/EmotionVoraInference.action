@@ -1,0 +1,9 @@
+# Goal
+sensor_msgs/Image image
+---
+# Result
+edie_msgs/EmotionDetection2DArray emotion_detections
+---
+# Feedback
+float32 progress
+string stage 

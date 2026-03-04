@@ -1,0 +1,18 @@
+uint8 command
+uint8 style
+float64[] value
+---
+uint8 result
+---
+uint8 state
+
+uint8 IN_RUNNING  = 0 # running
+uint8 IN_ERROR   = 1 # error
+uint8 IN_FINISHED = 2 # finished
+
+uint8 STOP = 3
+uint8 MOTION = 4
+uint8 WALKING = 5
+uint8 TRACKING = 6
+uint8 KICK = 7
+uint8 TUNING = 8

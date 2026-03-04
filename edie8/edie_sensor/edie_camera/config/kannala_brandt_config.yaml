@@ -1,0 +1,20 @@
+edie_camera_pub:
+  ros__parameters:
+    camera_model: "kannala_brandt"
+    distortion_model: "kannala_brandt"
+    camera_matrix:
+      rows: 3
+      cols: 3
+      data: [194.66066248715637, 0.0, 314.16083999103677, 0.0, 194.94620197500788, 229.17570841700532, 0.0, 0.0, 1.0]
+    distortion_coefficients:
+      rows: 1
+      cols: 4
+      data: [0.6825675807499222, -0.056806025148677955, -0.11138004488200955, 0.032483633549490035]
+    rectification_matrix:
+      rows: 3
+      cols: 3
+      data: [1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0]
+    projection_matrix:
+      rows: 3
+      cols: 4
+      data: [194.66066248715637, 0.0, 314.16083999103677, 0.0, 0.0, 194.94620197500788, 229.17570841700532, 0.0, 0.0, 0.0, 1.0, 0.0]

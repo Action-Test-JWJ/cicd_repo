@@ -1,0 +1,27 @@
+/aruco_detection_node:
+  ros__parameters:
+    aruco_dictionary_id: "DICT_5X5_1000"
+    corner_refinement: "SUBPIX"
+    gap_size: 0.02
+    
+    docking_marker_size: 0.07
+    docking_marker_ids: [2, 1]
+    
+    # docking_board_pose: [x, y, z, roll, pitch, yaw] in map frame
+    # DISABLED: 포즈가 흔들려서 비활성화
+    docking_board_pose: [-0.045, 0.0, 0.2, 1.5708, 0.0, -1.5708]
+    
+    localization_marker_size: 0.3
+    localization_marker_ids: [0, 101, 201, 301]
+
+    # 각 마커의 map 기준 pose [x, y, z, roll, pitch, yaw] (단위: meter, radian)
+    aruco_marker_position:
+      "0": [0.0, 0.0, 0.6, 1.5708, 0.0, -1.5708]
+      "101": [-2.0, 2.5, 0.43, 1.5708, 0.0, 0.0]
+      "201": [0.0, 0.477, 0.6, 1.5708, 0.0, -1.5708]
+      "301": [-2.0, -2.5, 0.43, 1.5708, 0.0, 3.14]
+
+    image_topic: "/edie8/vision/image_undistorted"
+    camera_info_topic: "/edie8/vision/camera_info"
+    camera_frame: "camera_link"
+    visualize: false

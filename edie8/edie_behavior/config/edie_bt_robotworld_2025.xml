@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root BTCPP_format="4"
+      main_tree_to_execute="Main">
+
+  <BehaviorTree ID="Main">
+    <ReactiveFallback name="root_fallback">
+      
+      <ReactiveFallback name="manual_modes">
+      
+        <Sequence>
+          <IsRobotMode mode="remote"/>
+          <IsMotorReady/>
+          <ReactiveFallback name="Remote_Mode_Main_Logic">
+            <Sequence>
+              <ProcessFsrTouch/>
+            </Sequence>
+            <RemoteControlPlay/>
+          </ReactiveFallback>
+        </Sequence>
+
+        <!-- Follow Mode -->
+        <Sequence>
+          <IsRobotMode mode="follow"/>
+          <IsMotorReady/>
+          <IsCharging status="0"/>
+          
+          <!-- Follow Mode의 핵심 로직: Interaction Mode와 Normal Mode로 분기 -->
+          <ReactiveFallback name="Follow_Mode_Main_Logic">
+
+            <!-- ===== 우선순위 1: SURPRISED RUNAWAY ===== -->
+            <!-- Surprise가 3번 나면 도망가기! -->
+            <Sequence name="Surprised_Runaway_Branch">
+              <IsAngryRunaway/>
+              <PlayEmotion index="6"/>
+              <MoveAwayFromTarget turn_duration="2.0" forward_duration="2.0" turn_velocity="1.5" forward_velocity="0.25"/>
+              <ResetAngryRunaway/>
+            </Sequence>
+
+            <!-- ===== 우선순위 2: INTERACTION MODE BRANCH ===== -->
+            <!-- 사람 얼굴 인식 후 상호작용 모드 -->
+            <Sequence name="Interaction_Mode_Branch">
+              <IsInInteractionMode/>
+              
+              <ReactiveFallback name="Interaction_Behaviors">
+
+                
+                <!-- 3. FSR 터치: 감정 따라하기 -->
+                <Sequence>
+                  <ProcessFsrTouch/>
+                  <!-- <TryInteract/> -->
+                </Sequence>
+                
+                <!-- 4. 기본 동작: 대기 -->
+                <AlwaysSuccess/>
+              </ReactiveFallback>
+            </Sequence>
+
+            <!-- ===== 우선순위 3: NORMAL FOLLOW MODE BRANCH ===== -->
+            <!-- Interaction Mode가 아닐 때의 일반 동작 -->
+            <ReactiveFallback name="Normal_Follow_Mode_Branch">
+              <!-- Mode 체크용 (항상 실패하여 다음으로 넘어감) -->
+              <Inverter>
+                <IsRobotMode mode="follow"/>
+              </Inverter>
+  
+              <!-- 1. FSR 터치 처리 -->
+              <ProcessFsrTouch/>
+              
+              <!-- 2. Follow 모드 로직 -->
+              <ReactiveFallback name="follow_logic">
+                <Sequence>
+                  <SetWaitDuration stage="1" duration_sec="10.0"/>
+                  <IsWaitingForTouch stage="1"/>
+                  <!-- <PlayEmotion index="3"/> -->
+                </Sequence>
+                <Sequence>
+                  <SetWaitDuration stage="2" duration_sec="10.0"/>
+                  <IsWaitingForTouch stage="2"/>
+                  <PlayEmotion index="4"/>
+                </Sequence>
+                <Sequence>
+                  <SetWaitDuration stage="3" duration_sec="8.0"/>
+                  <IsWaitingForTouch stage="3"/>
+                  <PlayEmotion index="1"/>
+                </Sequence>
+                <Sequence>
+                  <IsWaitingForTouch stage="4"/>
+                  <PlayEmotion index="8"/>
+                  <MoveAwayFromTarget turn_duration="2.0" forward_duration="2.0" turn_velocity="1.5" forward_velocity="0.25"/>
+                  <ResetWaitingStatus/>
+                </Sequence>
+            
+                <Sequence>
+                  <IsRandomWalkNeeded/>
+                  <ReactiveFallback name="random_walk_logic">
+                    <Sequence>
+                      <IsHumanVisible/>
+                      <SetRandomWalkFlag value="false"/>
+                      <ResetWaitingStatus/>
+                    </Sequence>
+                    <TryNavigation command="20" status_key="WanderRandomly"/>
+                  </ReactiveFallback>
+                </Sequence>
+
+                <Sequence>
+                  <Explore/>
+                </Sequence>
+              </ReactiveFallback>
+            </ReactiveFallback>
+
+          </ReactiveFallback>
+        </Sequence>
+        
+        <Sequence>
+          <IsRobotMode mode="home"/>
+          <IsMotorReady/>
+        </Sequence>
+
+        <Sequence>
+          <IsRobotMode mode="llm"/>
+          <IsMotorReady/>
+        </Sequence>
+      </ReactiveFallback>
+        
+      <!-- AUTO MODE -->
+      <Sequence>
+        <IsRobotMode mode="auto"/>
+        <IsMotorReady/>
+
+
+
+      </Sequence>
+
+      <!-- SIM MODE -->
+      <Sequence name="ktl_squence">
+        <IsRobotMode mode="sim"/>
+        <IsMotorReady/>
+        <SubTree ID="GoTo0Marker"/>
+        
+        <SubTree ID="PoseCorrect"/>
+        <TryNavigation command="3" status_key="GoToPreAlignPose"/>
+        <!-- AlignToStation 전에 측면 위치로 이동 -->
+        <TryNavigation command="17" status_key="GoToSideInit"/>
+        <TryNavigation command="4" status_key="AlignToStation"/>
+        <SubTree ID="PoseCorrect"/>
+        <Docking dock_id="charging_station_1"/>
+      </Sequence>
+
+
+    </ReactiveFallback>
+
+  </BehaviorTree>
+
+  <BehaviorTree ID="GoTo0Marker">
+    <Sequence name="search_and_approach_marker_0">
+      <TryNavigation command="10" status_key="SearchAruco"/>
+      <Fallback>
+        <Timeout msec="10000">
+          <SubTree ID="PoseCorrect"/>
+        </Timeout>
+        <Sequence>
+          <CollectArucoPoseData sample_count="100"/>
+          
+          <!-- 평균 pose를 기반으로 로봇이 어느 영역에 있는지 확인 후 이동 -->
+          <Fallback name="AreaClassification">
+            <Sequence name="GoLeftIfNeeded">
+              <IsRobotInArea area="left"/>
+              <SetTargetMarkerId marker_id="301"/>
+              <TryNavigation command="13" status_key="ApproachMarker"/>
+              <SubTree ID="PoseCorrect"/>
+            </Sequence>
+            <Sequence name="GoRightIfNeeded">
+              <IsRobotInArea area="right"/>
+              <SetTargetMarkerId marker_id="101"/>
+              <TryNavigation command="13" status_key="ApproachMarker"/>
+              <SubTree ID="PoseCorrect"/>
+            </Sequence>
+            <AlwaysSuccess/>
+          </Fallback>
+        </Sequence>
+      </Fallback>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="PoseCorrect">
+    <ReactiveFallback name="WaitLocalInit_after_home">
+      <IsPoseCorrectionDone/>
+      <KeepRunningUntilFailure>
+        <Sequence>
+          <TryNavigation command="0" status_key="IdleState"/>
+          <Inverter>
+            <IsPoseCorrectionDone/>
+          </Inverter>
+        </Sequence>
+      </KeepRunningUntilFailure>
+    </ReactiveFallback>
+  </BehaviorTree>
+  
+  <!-- (Other SubTrees like HomeMode) -->
+
+  <TreeNodesModel>
+    <!-- (Other node definitions) -->
+    <Action ID="FindClosestMarker" editable="true">
+      <output_port name="found_marker_id" type="std::string">ID of the closest marker</output_port>
+    </Action>
+    <Action ID="SetTargetMarkerId" editable="true">
+      <input_port name="marker_id" type="std::string">Target marker ID to search for</input_port>
+    </Action>
+    <Action ID="Docking" editable="true">
+      <input_port name="dock_id" type="std::string">Dock ID to dock to</input_port>
+    </Action>
+    <Action ID="CollectArucoPoseData" editable="true">
+      <input_port name="sample_count" type="int" default="100">Number of pose samples to collect</input_port>
+    </Action>
+    <Condition ID="IsRobotInArea" editable="true">
+      <input_port name="area" type="std::string">Area to check: station_front, station_side, station_side_left, station_side_right</input_port>
+    </Condition>
+    <Condition ID="IsCharging" editable="true">
+      <input_port name="timeout" type="double" default="1.0">Timeout in seconds</input_port>
+      <input_port name="status" type="int" default="2">Expected charging status</input_port>
+    </Condition>
+    <Condition ID="IsInInteractionMode" editable="true"/>
+    <Condition ID="IsAngryRunaway" editable="true"/>
+    <Action ID="ResetAngryRunaway" editable="true"/>
+    <Condition ID="IsStationOutValue" editable="true">
+      <input_port name="value" type="int">Expected station_out value (e.g., 3 for A button, 4 for Y button)</input_port>
+    </Condition>
+    <!-- (Other node definitions) -->
+
+    <!-- # ===== Command indices =====
+    CMD_IDLE                           IdleState            = 0
+    CMD_INIT_HOME                      InitHome             = 1
+    CMD_SPIN_ONCE                      SpinOnce             = 2
+    CMD_GO_TO_PRE_ALIGN_POSE           GoToPreAlignPose     = 3 
+    CMD_ALIGNMENT                      AlignToStation       = 4
+    CMD_ROTATE_BEHIND                  RotateBehind         = 5
+    CMD_GO_BACK                        GoBack               = 6
+    CMD_FIND_STATION_INIT              FindStationForInit   = 7
+    CMD_FIND_STATION_CHARGE            FindStationForCharge = 8
+    CMD_MOVE_RANDOMLY                  MoveRandomly         = 9
+    CMD_SEARCH_ARUCO                   SearchAruco          = 10
+    CMD_APPROACH_STATION               ApproachStation      = 11
+    CMD_GO_TO_MIDDLE                   GoToMiddle           = 12
+    CMD_APPROACH_MARKER                ApproachMarker       = 13
+    CMD_GO_TO_SIDE_LEFT                GoToSideLeft         = 14
+    CMD_GO_TO_SIDE_RIGHT               GoToSideRight        = 15
+    CMD_GO_TO_FRONT                    GoToFront            = 16
+    CMD_GO_TO_SIDE_INIT                GoToSideInit         = 17
+    CMD_ALIGN_YAW_TO_ZERO              AlignYawToZero       = 18 -->
+
+  </TreeNodesModel>
+
+</root>

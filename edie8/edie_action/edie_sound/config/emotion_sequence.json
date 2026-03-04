@@ -1,0 +1,22 @@
+{
+  "LOVE": {
+    "base_contents": {
+      "a": "0",
+      "b": "1~5"
+    },   
+    "sequence": {
+      "0": {
+        "contents": "a",
+        "count": 1
+      },
+      "1": {
+        "contents": "bRb",
+        "count": 4
+      },
+      "2": {
+        "contents": "a",
+        "count": 30
+      }
+    }
+  }
+}

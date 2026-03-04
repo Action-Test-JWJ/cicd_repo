@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <!-- <xacro:macro name="ros2_control" params="use_dummy"> -->
+    <ros2_control name="edie8_ros2_control" type="system">
+        <hardware>
+            <plugin>mock_components/GenericSystem</plugin>
+            <param name="mock_sensor_commands">true</param>
+        </hardware>
+
+        <!--Wheels-->
+        <joint name="left_wheel_joint">
+            <command_interface name="velocity"/>
+            <state_interface name="position"/>
+            <state_interface name="velocity"/>
+        </joint>
+        <joint name="right_wheel_joint">
+            <command_interface name="velocity"/>
+            <state_interface name="position"/>
+            <state_interface name="velocity"/>
+        </joint>
+
+        <!--Legs-->
+        <joint name="left_leg_joint">
+          <command_interface name="position">
+            <param name="min">-0.02</param>
+            <param name="max">0.00</param>
+          </command_interface>
+          <state_interface name="position"/>
+        </joint>
+        <joint name="right_leg_joint">
+          <command_interface name="position">
+            <param name="min">-0.02</param>
+            <param name="max">0.00</param>
+          </command_interface>
+          <state_interface name="position"/>
+        </joint>
+
+        <!--Ears-->
+      <!--Ears-->
+      <joint name="left_ear_joint">
+        <command_interface name="position">
+          <param name="min">0</param>
+          <param name="max">1.0472</param>
+        </command_interface>
+        <state_interface name="position"/>
+      </joint>
+  
+      <joint name="right_ear_joint">
+        <command_interface name="position">
+          <param name="min">0</param>
+          <param name="max">1.0472</param>
+        </command_interface>
+        <state_interface name="position"/>
+      </joint>
+      
+    </ros2_control>
+  <!-- </xacro:macro> -->
+</robot>
