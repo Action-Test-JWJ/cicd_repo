@@ -1,0 +1,16 @@
+pcm.!default {
+    type hw
+    card MV88
+}
+
+ctl.!default {
+    type hw
+    card MV88
+}
+
+# 백업 설정
+pcm.backup {
+    type hw
+    card 2  # NVIDIA Jetson Orin NX APE
+    device 0
+}

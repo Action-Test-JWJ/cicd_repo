@@ -1,0 +1,10 @@
+.include /etc/pulse/default.pa
+
+# Set default source
+set-default-source alsa_input.usb-Shure_Inc_Shure_MV88_-00.iec958-stereo
+
+# Load LADSPA module with specific plugin path
+load-module module-ladspa-sink sink_name=deepfilter_mic sink_master=@DEFAULT_SINK@ plugin=/home/orin/.ladspa/libdeep_filter_ladspa-0.5.6-aarch64-unknown-linux-gnu.so label=deepfilter control=1
+
+# Create filtered source from the default microphone
+load-module module-virtual-source source_name=deepfilter_mic master=@DEFAULT_SOURCE@ source_properties="device.description='DeepFilter Microphone'"

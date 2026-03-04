@@ -1,0 +1,17 @@
+/edie_behavior_node:
+  ros__parameters:
+    follow_target:
+      linear_min: 0.25
+      linear_max: 0.45
+      angular_min: 1.45
+      far_enter: 0.30 # 가까울때까지 멈춰라잉
+      far_exit: 0.35
+      far_max: 0.8
+      search_spin_duration_sec: 3.0
+      target_lost_count_threshold: 2
+      target_lost_timeout_sec: 0.5
+      infront_debounce_sec: 0.5
+      angular_align_threshold: 0.08
+      h_fov_per_pixel_deg: 0.140623598
+      v_fov_per_pixel_deg: 0.187497515
+

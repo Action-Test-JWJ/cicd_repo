@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro"  name="robot">
+    
+    <xacro:arg name="use_dummy" default="false" />
+
+    <xacro:include filename="edie8_core.xacro" />
+    <xacro:include filename="edie8_ros2_control.xacro"/>
+
+    <!-- <xacro:include filename="lidar.xacro" /> -->
+    <xacro:include filename="camera.xacro" />
+    <!-- xacro:include filename="depth_camera.xacro" /-->
+    <!--xacro:include filename="face.xacro" /-->
+    
+</robot>

@@ -31,7 +31,7 @@ jobs:
           push: true
           platforms: linux/arm64
           tags: |
-            jaewook6488/cicd_docker_repo:main
+            jaewook6488/cicd_docker_repo:latest
             jaewook6488/cicd_docker_repo:${{ github.event.inputs.tag }}
           build-args: |
             BASE_IMAGE=jaewook6488/cicd_docker_repo:dev

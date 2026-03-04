@@ -1,0 +1,89 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:macro name="edie8_isaac_sensor" params="prefix">
+
+    <link name="camera_link">
+    </link>
+
+    <joint name="camera_joint" type="fixed">
+      <parent link="chassis"/>
+      <child link="camera_link"/>
+      <origin xyz="0.023 0 0.11" rpy="0 -${pi/4.5} 0"/>
+    </joint>
+
+    <link name="left_front_range_sensor">
+    </link>
+
+    <joint name="left_front_range_sensor_joint" type="fixed">
+      <parent link="chassis"/>
+      <child link="left_front_range_sensor"/>
+      <origin xyz="0.036 0.055 0.085" rpy="0 -0.6 0"/>
+    </joint>
+
+    <link name="right_front_range_sensor">
+    </link>
+
+    <joint name="right_front_range_sensor_joint" type="fixed">
+      <parent link="chassis"/>
+      <child link="right_front_range_sensor"/>
+      <origin xyz="0.036 -0.055 0.085" rpy="0 -0.6 0"/>
+    </joint>
+
+    <link name="bottom_range_sensor">
+    </link>
+
+    <joint name="bottom_range_sensor_joint" type="fixed">
+      <parent link="chassis"/>
+      <child link="bottom_range_sensor"/>
+      <origin xyz="0.09 0 -0.04" rpy="0 ${pi/2.0} 0"/>
+    </joint>
+
+    <!-- =============== Isaac Sim =============== -->
+    <isaac>
+      <sensor name="camera_link" type="camera">
+        <namespace>edie8/vision</namespace>
+        <topic>image_raw</topic>
+        <horizontal_fov_rad>1.3962634</horizontal_fov_rad>
+        <horizontal_focal_length>30</horizontal_focal_length> <!-- optical parameter -->
+        <vertical_focal_length>30</vertical_focal_length> <!-- optical parameter -->
+        <focus_distance>400</focus_distance> <!-- distance for clear image -->
+        <projection>perspective</projection> <!-- perspective or orthgonal -->
+        <image>
+           <width>640</width>
+           <height>480</height>
+        </image>
+        <clip>
+          <near>0.02</near>
+          <far>300</far>
+        </clip>
+        <update_rate>30.0</update_rate>
+      </sensor>
+
+      <sensor name="left_front_range_sensor" type="vl53l0x">
+        <namespace>edie8/sensor</namespace>
+        <topic>left_front/laser</topic>
+        <max_range>1.5</max_range>
+        <min_range>0.04</min_range>
+        <update_rate>20.0</update_rate>
+      </sensor>
+
+      <sensor name="right_front_range_sensor" type="vl53l0x">
+        <namespace>edie8/sensor</namespace>
+        <topic>right_front/laser</topic>
+        <max_range>1.5</max_range>
+        <min_range>0.04</min_range>
+        <update_rate>20.0</update_rate>
+      </sensor>
+
+      <sensor name="bottom_range_sensor" type="vl6180x">
+        <namespace>edie8/sensor</namespace>
+        <topic>bottom/laser</topic>
+        <max_range>0.5</max_range>
+        <min_range>0.1</min_range>
+        <update_rate>20.0</update_rate>
+      </sensor>
+
+    </isaac>
+  </xacro:macro>
+</robot>

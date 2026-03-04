@@ -1,0 +1,29 @@
+aeirobot_llm:
+  ros__parameters:
+    pub:
+      pub_llm: '/aeirobot/edie/dialogue/llm'
+      pub_llm_full: '/aeirobot/edie/dialogue/llm/full'
+      pub_llm_tools: '/aeirobot/edie/llm/tools'
+    sub:
+      sub_llm_clear: '/aeirobot/edie/commander/llm/clear'
+      sub_stt: '/aeirobot/asr/result'
+      sub_llm_process: '/aeirobot/edie/llm/process'
+      sub_llm_initialize: '/aeirobot/edie/manage/dialogue/llm/initialize'
+  
+  agent__parameters:
+    prompts:
+      packages:
+        - "prompt_edie_persona.txt"
+        - "prompt_edie_tools.txt"
+    tools:
+      packages:
+        - "aeirobot_llm.toolbox.expression"
+    llm:
+      model_name: "gpt-4.1-mini"
+      temperature: 0.2
+    session:
+      session_id: "edie"
+      memory_chat_history: 10   # 0이면 대화기억 없음
+      verbose: true
+
+

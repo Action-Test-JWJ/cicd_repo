@@ -1,0 +1,15 @@
+# Goal
+int8 motion_index
+---
+# Result
+bool motion_done
+---
+# Feedback
+int8 current_motion_step
+int8 remaining_motion_step
+float32 elapsed_time
+float32 remaining_time
+float64 l_leg_current_position
+float64 r_leg_current_position
+float64 l_ear_current_position
+float64 r_ear_current_position

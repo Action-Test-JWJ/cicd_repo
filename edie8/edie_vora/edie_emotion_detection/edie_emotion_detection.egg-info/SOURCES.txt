@@ -1,0 +1,17 @@
+package.xml
+setup.cfg
+setup.py
+edie_emotion_detection/__init__.py
+edie_emotion_detection/edie_emotion_detection_node.py
+edie_emotion_detection/dlib_face_detector.py
+edie_emotion_detection.egg-info/PKG-INFO
+edie_emotion_detection.egg-info/SOURCES.txt
+edie_emotion_detection.egg-info/dependency_links.txt
+edie_emotion_detection.egg-info/entry_points.txt
+edie_emotion_detection.egg-info/requires.txt
+edie_emotion_detection.egg-info/top_level.txt
+edie_emotion_detection.egg-info/zip-safe
+resource/edie_emotion_detection
+test/test_copyright.py
+test/test_flake8.py
+test/test_pep257.py

@@ -1,0 +1,18 @@
+<library path="edie_hardware"> <!--libedie_hardware.so를 찾음-->
+  <class name="edie_hardware/EdieHardware"
+         type="edie_hardware::EdieHardware"
+         base_class_type="hardware_interface::SystemInterface">
+    <description>
+      The 8th gen Edie system interface.
+    </description>
+  </class>
+
+</library>
+
+<!--이 xml 파일을 기반하여 pluginlib으로 ROS 2 시스템에 플러그인을 쉽게 선언하고 로드할 수 있도록 메타데이터 역할함-->
+<!--
+
+class_name : <패키지 이름>/<클래스 이름>이면 좋음. 엄격한건 아님.
+class_type : 클래스의 정규화된 이름(네임스페이스를 포함)
+class base_class_type : 이 플러그인이 구현해야 하는 인터페이스 또는 추상 클래스를 명시합니다.
+-->

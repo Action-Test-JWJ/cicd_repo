@@ -1,0 +1,9 @@
+# Goal
+sensor_msgs/Image image
+---
+# Result
+edie_msgs/HumanDetection2DArray human_detections
+---
+# Feedback
+float32 progress       # 0.0 ~ 1.0
+string stage           # "preprocess" | "inference" | "postprocess" | "done" 등

@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="edie8">
+    <xacro:include filename="sim_edie8_core.mujoco.xacro"/>
+    <xacro:include filename="sim_edie8_ros2_control.mujoco.xacro"/>
+</robot>

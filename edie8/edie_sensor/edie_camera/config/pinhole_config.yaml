@@ -1,0 +1,20 @@
+edie_camera_pub:
+  ros__parameters:
+    camera_model: "pinhole"
+    distortion_model: "plumb_bob" # For CameraInfo message
+    camera_matrix:
+      rows: 3
+      cols: 3
+      data: [501.10980011376125, 0.0, 312.37587945691126, 0.0, 501.76249532165775, 216.4203586169687, 0.0, 0.0, 1.0]
+    distortion_coefficients:
+      rows: 1
+      cols: 5
+      data: [-0.357572775890401, 0.13705793098060928, 0.0017587111917320003, 0.00023384401569657455]
+    rectification_matrix:
+      rows: 3
+      cols: 3
+      data: [1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0]
+    projection_matrix:
+      rows: 3
+      cols: 4
+      data: [501.10980011376125, 0.0, 312.37587945691126, 0.0, 0.0, 501.76249532165775, 216.4203586169687, 0.0, 0.0, 0.0, 1.0, 0.0]

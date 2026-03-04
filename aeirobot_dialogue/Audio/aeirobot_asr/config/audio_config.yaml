@@ -1,0 +1,54 @@
+aeirobot_asr:
+  ros__parameters:
+    pub:
+      pub_asr_status: '/aeirobot/asr/status'
+      pub_asr_file: '/aeirobot/asr/file'
+      # pub_asr_stream: '/aeirobot/asr/stream'
+      
+    sub:
+      sub_audio_df_data: '/edie/audio/df_data'
+
+  audio__parameters:
+    # 오디오 설정
+    sample_rate: 48000
+    frame_duration: 30
+    default_device: "DeepFilterMic"
+    # default_device: "MV88"
+
+    # 파일 저장 경로 설정
+    speech_segments_dir: ".aeirobot_asr/speech_logs" # home directory 기준 상대 경로
+    test_recordings_dir: ".aeirobot_asr/audio_test" # home directory 기준 상대 경로
+
+    # 음성 처리 설정
+    noise_db_threshold: -30.0 # 기본 노이즈 dB 임계값
+    min_db_threshold: -40.0 # 최소 노이즈 dB 임계값 (high VAD용)
+    speech_db_threshold: -20.0 # 음성 감지 dB 임계값
+    smoothing_window: 3 # VAD 결과 스무딩 윈도우 크기
+    padding_frames: 20 # 음성 시작/끝 패딩 프레임 수
+
+    # 음성 구간 설정
+    min_speech_duration: 0.01 # 최소 발화 길이 (초)
+    max_speech_duration: 5.0 # 최대 발화 길이 (초)
+    pause_duration: 0.5 # 묵음 판단 시간 (초)
+    padding_duration: 0.3 # 음성 시작/끝 패딩 (초)
+
+
+    # VAD 관련 설정
+    high_threshold: 0.98
+    vad:
+      type: "silero" # or "webrtc", "silero"
+      sample_rate: 48000
+      frame_duration: 10  # ms
+      buffer_size: 2 # Silero VAD 버퍼 크기
+      threshold: 0.8 # Silero VAD 임계값
+      min_speech_prob: 0.01 # Silero 최소 음성 확률
+      sensitive_level: 3 # WebRTC VAD 감도 레벨 (0-3)
+
+    # 서비스 설정
+    service:
+      silence_duration: 1.5 # 말이 끝난 시간 (초)
+      silence_db_threshold: -40.0 # 묵음 감지 dB 임계값
+
+    # 레코딩 설정 
+    enable_recording: True # 녹음 활성화 여부 -> True의 경우 모든 발화를 시간별로 저장,  False의 경우 하나 음성파일 이름으로 업데이트
+  

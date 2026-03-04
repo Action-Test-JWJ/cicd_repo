@@ -1,0 +1,6 @@
+# Request
+string target # 'human' | 'emotion'
+---
+# Response
+bool ok
+string message

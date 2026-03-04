@@ -1,0 +1,42 @@
+log_groups:
+  # 컨트롤 관련 노드 그룹
+  control:
+    nodes:
+      - aeirobot_endpoint_calculator
+      - aeirobot_pelvis_calculator
+      - aeirobot_state_estimator
+      - aeirobot_whole_body_controller
+      - alice4_footstep_planner
+      - alice4_footstep_generator
+      - alice4_path_planner
+      - controller_manager
+      - floating_base_ekfnode
+      - joint_state_broadcaster
+      - joint_trajectory_controller
+      - mujoco_hardware_interface
+      - mujoco_ros_node
+      - robot_state_publisher
+      - stepping_controller
+      - task_player
+      - wbc_ros_communicator
+
+  framework:
+    nodes:
+      - can_state_broadcaster
+
+  # 로컬라이제이션 관련 노드 그룹
+  localization:
+    nodes:
+      - alice_localization_gui
+      - alice_localization_manager
+
+  general:
+    nodes:
+      - alice4_gui
+
+# 기본 설정
+default_config:
+  log_level: 2 # INFO=2
+  log_to_console: false
+  use_colored_log: false
+  rollover_interval: 3600.0 # 1시간

@@ -1,0 +1,40 @@
+# edie_camera_pub:
+#   ros__parameters:
+#     camera_model: "equidistant"
+#     distortion_model: "equidistant"
+#     camera_matrix:
+#       rows: 3
+#       cols: 3
+#       data: [501.65, 0.0, 312.48, 0.0, 502.34, 220.03, 0.0, 0.0, 1.0]
+#     distortion_coefficients:
+#       rows: 1
+#       cols: 4
+#       data: [-0.0472, 0.0137, -0.0730, 0.0887]
+#     rectification_matrix:
+#       rows: 3
+#       cols: 3
+#       data: [1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0]
+#     projection_matrix:
+#       rows: 3
+#       cols: 4
+#       data: [501.65, 0.0, 312.48, 0.0, 0.0, 502.34, 220.03, 0.0, 0.0, 0.0, 1.0, 0.0]
+edie_camera_pub: #ov5640
+  ros__parameters:
+    camera_model: "equidistant"
+    distortion_model: "equidistant"
+    camera_matrix:
+      rows: 3
+      cols: 3
+      data: [199.535, 0.0, 305.709, 0.0, 200.145, 236.443, 0.0, 0.0, 1.0]
+    distortion_coefficients:
+      rows: 1
+      cols: 4
+      data: [0.660675, 0.032225, -0.262943, 0.114609]
+    rectification_matrix:
+      rows: 3
+      cols: 3
+      data: [1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0]
+    projection_matrix:
+      rows: 3
+      cols: 4
+      data: [199.535, 0.0, 305.709, 0.0, 0.0, 200.145, 236.443, 0.0, 0.0, 0.0, 1.0, 0.0]
