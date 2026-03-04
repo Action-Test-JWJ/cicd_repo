@@ -1,0 +1,24 @@
+name: Deploy Main
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: '배포할 버전 태그 (예: v1.0.0)'
+        required: true
+
+jobs:
+  deploy-main:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - run: |
+          docker pull jaewook6488/cicd_docker_repo:dev
+          docker tag jaewook6488/cicd_docker_repo:dev jaewook6488/cicd_docker_repo:main
+          docker tag jaewook6488/cicd_docker_repo:dev jaewook6488/cicd_docker_repo:${{ github.event.inputs.tag }}
+          docker push jaewook6488/cicd_docker_repo:main
+          docker push jaewook6488/cicd_docker_repo:${{ github.event.inputs.tag }}
