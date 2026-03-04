@@ -1,10 +1,11 @@
-name: Generate Base Image
+name: Build and Push
 
 on:
-  workflow_dispatch:
+  push:
+    branches: [develop]
 
 jobs:
-  build-base:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -21,7 +22,9 @@ jobs:
       - uses: docker/build-push-action@v5
         with:
           context: .
-          file: docker/base.Dockerfile
+          file: docker/Dockerfile
           push: true
           platforms: linux/arm64
-          tags: jaewook6488/cicd_docker_repo:base
+          tags: jaewook6488/cicd_docker_repo:dev
+          build-args: |
+            BASE_IMAGE=jaewook6488/cicd_docker_repo:base
