@@ -32,7 +32,6 @@ COPY edie8 /home/ros2_ws/src/edie8
 
 WORKDIR /home/ros2_ws
 RUN . /opt/ros/humble/setup.sh && \
-    colcon build --packages-up-to aeirobot_llm aeirobot_stt edie_emotion_detection edie_vora_infer_manager_python && \
     colcon build && \
     rm -rf src
 
