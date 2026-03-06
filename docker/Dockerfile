@@ -1,14 +1,11 @@
 ARG BASE_IMAGE=jaewook6488/cicd_docker_repo:dev
 FROM ${BASE_IMAGE}
 
-COPY edie8 /tmp/edie8_new
+COPY edie8 /home/ros2_ws/src/edie8
 
 WORKDIR /home/ros2_ws
-RUN apt-get update && apt-get install -y rsync && rm -rf /var/lib/apt/lists/* && \
-    rsync -a --checksum /tmp/edie8_new/ src/edie8/ && \
-    rm -rf /tmp/edie8_new && \
-    . /opt/ros/humble/setup.sh && \
-    colcon build && \
+RUN . /opt/ros/humble/setup.sh && \
+    colcon build --cmake-args -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache && \
     rm -rf src
 
 COPY docker/entrypoint.sh /entrypoint.sh
