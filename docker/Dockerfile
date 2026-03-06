@@ -6,6 +6,8 @@ COPY edie8 /home/ros2_ws/src/edie8
 WORKDIR /home/ros2_ws
 RUN sed -i 's/NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH/NO_CMAKE_FIND_ROOT_PATH/g' \
     /opt/ros/humble/share/*/cmake/ament_cmake_export_libraries-extras.cmake && \
+    sed -i 's/set(_lib "NOTFOUND")/unset(_lib CACHE)\n      set(_lib "NOTFOUND")/g' \
+    /opt/ros/humble/share/*/cmake/ament_cmake_export_libraries-extras.cmake && \
     ldconfig && \
     . /opt/ros/humble/setup.sh && \
     colcon build --cmake-args -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache && \
