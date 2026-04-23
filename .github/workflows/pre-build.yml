@@ -98,8 +98,10 @@ jobs:
 
       - name: Build ROS2 packages
         run: |
-          set -euo pipefail
+          set -eo pipefail
+          set +u
           source /opt/ros/${ROS_DISTRO}/setup.bash
+          set -u
           cd "${WORKSPACE_DIR}"
           colcon build --event-handlers console_direct+
 
