@@ -1,4 +1,4 @@
-name: ROS2 Build Test
+name: Build (develop)
 
 on:
   pull_request:
