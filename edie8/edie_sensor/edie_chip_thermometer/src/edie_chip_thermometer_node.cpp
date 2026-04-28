@@ -14,8 +14,9 @@ EdieChipThermometerNode::~EdieChipThermometerNode()
 }
 
 
-float EdieChipThermometerNode::readChipTemperature()
+float EdieChipThermometerNode::readChipTemperature(int precision)
 {
+    (void)precision;
     std::ifstream temp_file(temperature_path_);
     float temperature = -1.0;
 
@@ -34,7 +35,7 @@ float EdieChipThermometerNode::readChipTemperature()
 
 void EdieChipThermometerNode::pubChipTemperature()
 {
-    float temperature = readChipTemperature();
+    float temperature = readChipTemperature(2);
 
     if (temperature >= 0.0)
     {
