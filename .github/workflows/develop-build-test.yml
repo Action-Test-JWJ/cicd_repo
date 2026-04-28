@@ -1,0 +1,143 @@
+name: Build (develop)
+
+on:
+  # PR 머지 전: develop + PR head 가상 머지 후 빌드 (pre-merge gate)
+  pull_request:
+    branches:
+      - develop
+    types:
+      - opened
+      - synchronize
+      - reopened
+
+  # PR 머지 후: develop 그 자체를 빌드 → README 뱃지 갱신용 (post-merge)
+  push:
+    branches:
+      - develop
+
+  # 수동 실행: PR 번호 있으면 pre-merge 빌드, 없으면 develop HEAD 빌드
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: "Build할 PR 번호 (비우면 develop HEAD 빌드)"
+        required: false
+        type: string
+        default: ""
+
+permissions:
+  contents: read
+  pull-requests: read
+
+concurrency:
+  # 이벤트별로 그룹 분리: PR끼리만 서로 cancel, push/PR/dispatch는 독립
+  group: ros2-build-${{ github.event_name }}-${{ github.event.pull_request.number || inputs.pr_number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ros2-build:
+    runs-on: [self-hosted, Linux, ARM64, Thor]
+
+    container:
+      image: jaewook6488/cicd_docker_repo:latest
+
+    defaults:
+      run:
+        shell: bash
+
+    env:
+      BASE_BRANCH: develop
+      ROS_DISTRO: humble
+      WORKSPACE_DIR: .
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Mark workspace as safe for git
+        run: |
+          set -euo pipefail
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
+      - name: Resolve PR number
+        id: pr
+        run: |
+          set -euo pipefail
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            echo "number=${{ github.event.pull_request.number }}" >> "$GITHUB_OUTPUT"
+          elif [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "number=${{ inputs.pr_number }}" >> "$GITHUB_OUTPUT"
+          else
+            # push 이벤트: PR 컨텍스트 없음
+            echo "number=" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Show environment
+        run: |
+          set -euo pipefail
+          echo "event=${{ github.event_name }}"
+          echo "ref=${{ github.ref }}"
+          echo "pr=${{ steps.pr.outputs.number }}"
+          echo "GITHUB_WORKSPACE=$GITHUB_WORKSPACE"
+          uname -a
+          whoami
+          pwd
+          git --version
+          colcon version-check || true
+
+      # ---------- PR 컨텍스트일 때만: 가상 머지 ----------
+      - name: Fetch PR head
+        if: steps.pr.outputs.number != ''
+        run: |
+          set -euo pipefail
+          git fetch origin \
+            +refs/pull/${{ steps.pr.outputs.number }}/head:refs/remotes/origin/pr/${{ steps.pr.outputs.number }}
+          git checkout -B pr-head refs/remotes/origin/pr/${{ steps.pr.outputs.number }}
+
+      - name: Fetch base branch
+        if: steps.pr.outputs.number != ''
+        run: |
+          set -euo pipefail
+          git fetch origin +refs/heads/${BASE_BRANCH}:refs/remotes/origin/${BASE_BRANCH}
+
+      - name: Try virtual merge with develop
+        if: steps.pr.outputs.number != ''
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+
+          if ! git merge --no-ff --no-edit refs/remotes/origin/${BASE_BRANCH}; then
+            echo "Merge conflict with ${BASE_BRANCH}" >> "$GITHUB_STEP_SUMMARY"
+            exit 1
+          fi
+
+      # ---------- 공통: 빌드 ----------
+      - name: Build ROS2 packages
+        run: |
+          set -eo pipefail
+          set +u
+          source /opt/ros/${ROS_DISTRO}/setup.bash
+          set -u
+          cd "${WORKSPACE_DIR}"
+          colcon build --event-handlers console_direct+
+
+      - name: Success summary
+        if: success()
+        run: |
+          if [ -n "${{ steps.pr.outputs.number }}" ]; then
+            echo "PR #${{ steps.pr.outputs.number }} merged with ${BASE_BRANCH} successfully." >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "Develop HEAD (${{ github.sha }}) build succeeded." >> "$GITHUB_STEP_SUMMARY"
+          fi
+          echo "ROS2 build succeeded." >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Failure summary
+        if: failure()
+        run: |
+          if [ -n "${{ steps.pr.outputs.number }}" ]; then
+            echo "ROS2 build failed or merge conflict occurred (PR #${{ steps.pr.outputs.number }})." >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "ROS2 build failed on develop HEAD (${{ github.sha }})." >> "$GITHUB_STEP_SUMMARY"
+          fi
