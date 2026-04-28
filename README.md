@@ -1,5 +1,2 @@
 # cicd_repo
-hello2
-hello3
-hello4
-hello5
+![ROS2 Build Test](https://github.com/Action-Test-JWJ/cicd_repo/actions/workflows/pre-build.yml/badge.svg?branch=develop)
