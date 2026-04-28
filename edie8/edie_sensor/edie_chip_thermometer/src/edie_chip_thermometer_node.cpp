@@ -51,5 +51,6 @@ void EdieChipThermometerNode::pubChipTemperature()
 
 void EdieChipThermometerNode::timerCallback()
 {
+    RCLCPP_DEBUG(this->get_logger(), "tick: temp=%f", readChipTemperature());
     pubChipTemperature();
 }
