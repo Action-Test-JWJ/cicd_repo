@@ -13,7 +13,7 @@ public:
     EdieChipThermometerNode();
     ~EdieChipThermometerNode();
 
-    float readChipTemperature();
+    float readChipTemperature(int precision);
     void pubChipTemperature();
 
 private:
