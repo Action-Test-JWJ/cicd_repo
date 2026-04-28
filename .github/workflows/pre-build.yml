@@ -1,0 +1,117 @@
+name: Build (develop)
+
+on:
+  pull_request:
+    branches:
+      - develop
+    types:
+      - opened
+      - synchronize
+      - reopened
+
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: "Build할 PR 번호"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  pull-requests: read
+
+concurrency:
+  group: ros2-pr-build-${{ github.event.pull_request.number || inputs.pr_number || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  ros2-build:
+    runs-on: [self-hosted, Linux, ARM64, Thor]
+
+    container:
+      image: jaewook6488/cicd_docker_repo:latest
+
+    defaults:
+      run:
+        shell: bash
+
+    env:
+      BASE_BRANCH: develop
+      ROS_DISTRO: humble
+      WORKSPACE_DIR: .
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Mark workspace as safe for git
+        run: |
+          set -euo pipefail
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
+      - name: Resolve PR number
+        id: pr
+        run: |
+          set -euo pipefail
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            echo "number=${{ github.event.pull_request.number }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "number=${{ inputs.pr_number }}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Show environment
+        run: |
+          set -euo pipefail
+          echo "event=${{ github.event_name }}"
+          echo "pr=${{ steps.pr.outputs.number }}"
+          echo "GITHUB_WORKSPACE=$GITHUB_WORKSPACE"
+          uname -a
+          whoami
+          pwd
+          git --version
+          colcon version-check || true
+
+      - name: Fetch PR head
+        run: |
+          set -euo pipefail
+          git fetch origin \
+            +refs/pull/${{ steps.pr.outputs.number }}/head:refs/remotes/origin/pr/${{ steps.pr.outputs.number }}
+          git checkout -B pr-head refs/remotes/origin/pr/${{ steps.pr.outputs.number }}
+
+      - name: Fetch base branch
+        run: |
+          set -euo pipefail
+          git fetch origin +refs/heads/${BASE_BRANCH}:refs/remotes/origin/${BASE_BRANCH}
+
+      - name: Try virtual merge with develop
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+
+          if ! git merge --no-ff --no-edit refs/remotes/origin/${BASE_BRANCH}; then
+            echo "Merge conflict with ${BASE_BRANCH}" >> "$GITHUB_STEP_SUMMARY"
+            exit 1
+          fi
+
+      - name: Build ROS2 packages
+        run: |
+          set -eo pipefail
+          set +u
+          source /opt/ros/${ROS_DISTRO}/setup.bash
+          set -u
+          cd "${WORKSPACE_DIR}"
+          colcon build --event-handlers console_direct+
+
+      - name: Success summary
+        if: success()
+        run: |
+          echo "PR #${{ steps.pr.outputs.number }} merged with ${BASE_BRANCH} successfully." >> "$GITHUB_STEP_SUMMARY"
+          echo "ROS2 build succeeded." >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Failure summary
+        if: failure()
+        run: |
+          echo "ROS2 build failed or merge conflict occurred." >> "$GITHUB_STEP_SUMMARY"
